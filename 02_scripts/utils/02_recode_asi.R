@@ -250,13 +250,13 @@ recode_asi <- function(df) {
       
     )
   
-  derived_vars <- c("fixed_capital", "physical_working_capital", "working_capital", "invested_capital", "gross_fixed_capital_addition", "rent_paid", "outstanding_loan", "interest_paid",
-                    "rent_received", "interest_received", "gross_value_plant_machinery", "value_products_byproduct", "other_output", "total_output", "fuels_consumed", "materials_consumed", 
-                    "other_input", "total_input", "total_gva", "total_depreciation", "total_nva", "net_income", "net_profit", "net_fixed_capital_formation", "gross_fixed_capital_formation",
-                    "stock_addition_materials_fuels", "stock_addition_semifinished", "stock_addition_finished_goods", "stock_addition_total", "gross_capital_formation", "total_male_workers", 
-                    "total_female_workers", "total_trans_workers", "total_direct_workers", "total_contract_workers", "total_workers", "total_staff_supervisory", "total_employees_other", "total_nonworker_employees", 
-                    "total_unpaid_family", "total_persons_engaged", "total_mandays_employed", "wages_workers", "wages_supervisory", "wages_other_employees", "total_wages_salaries", "total_bonus", 
-                    "wages_salaries_bonus", "employer_contribution", "wage_salaries_contribution", "coal_consumed", "electricity_purchased", "petroleum_products", "gas_consumed", "other_fuels")
+  derived_vars <- c("fixed_capital", "physical_working_capital", "working_capital", "invested_capital", "gross_fixed_capital_addition", "rent_paid", "outstanding_loan", "interest_paid", "rent_received",
+                    "interest_received", "gross_value_plant_machinery", "value_products_byproduct", "other_output", "total_output", "fuels_consumed", "materials_consumed", "other_input", "total_input", 
+                    "total_gva", "total_depreciation", "total_nva", "net_income", "net_profit", "net_fixed_capital_formation", "gross_fixed_capital_formation", "stock_addition_materials_fuels", 
+                    "stock_addition_semifinished", "stock_addition_finished_goods", "stock_addition_total", "gross_capital_formation", "total_male_workers", "total_female_workers", "total_trans_workers",
+                    "total_direct_workers", "total_contract_workers", "total_workers", "total_staff_supervisory", "total_employees_other", "total_nonworker_employees", "total_unpaid_family", 
+                    "total_persons_engaged", "total_mandays_employed", "wages_workers", "wages_supervisory", "wages_other_employees", "total_wages_salaries", "total_bonus", "wages_salaries_bonus", 
+                    "employer_contribution", "wage_salaries_contribution", "coal_consumed", "electricity_purchased", "petroleum_products", "gas_consumed", "other_fuels")
   
   df <- df %>% 
     mutate(across(all_of(derived_vars), ~ if_else(unit_status %in% c(1:3), ., NA))) %>% 
