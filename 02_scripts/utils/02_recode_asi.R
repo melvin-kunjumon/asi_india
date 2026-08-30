@@ -49,18 +49,18 @@ recode_asi <- function(df) {
   
   # Note on tabulation formula consistency across waves -----
   
-  # old_waves <- c("2014_15", "2015_16", "2016_17", "2017_18")
+  # old_waves <- c("2015_16", "2016_17", "2017_18")
   
   # From ASI 2018-19 onward, the survey redefined Rent Paid, Rent Received, Output, Input, NFCF, GFCF, GCF, Net Income, and Net Profit to align with SNA 2008 (see ASI 2018-19 Vol I, Section 1.9). 
-  # For comparability across the full panel (2014-15 to 2023-24), this script applies the POST-2018-19 (revised) formula definitions uniformly to all waves, including 2014-15 through 2017-18.
+  # For comparability across the full panel (2015-16 to 2023-24), this script applies the POST-2018-19 (revised) formula definitions uniformly to all waves, including 2015-16 through 2017-18.
   
-  # As a result, the following derived variables for the 2014-15 to 2017-18 waves will not match the officially published ASI reports (which used the pre-revision definitions): 
+  # As a result, the following derived variables for the 2015-16 to 2017-18 waves will not match the officially published ASI reports (which used the pre-revision definitions): 
   # rent_paid, rent_received, other_output, other_input, net_fixed_capital_formation 
   # And everything computed from them: total_output, total_input, total_gva, total_nva, net_income, net_profit, gross_fixed_capital_formation, gross_capital_formation
   
   # All other derived variables (fixed_capital, physical_working_capital, working_capital, invested_capital, gross_fixed_capital_addition, outstanding_loan, interest_paid, 
   # interest_received, gross_value_plant_machinery, value_products_byproduct, fuels_consumed, materials_consumed, total_depreciation, all stock_addition_* variables,
-  # all employment variables, all wage variables, and the fuel breakdown) use an identical construction across all waves and remain directly comparable to the official 2017-18 published figures.
+  # all employment variables, all wage variables, and the fuel breakdown) use an identical construction across all waves and remain directly comparable to the official PRE-2018-19 published figures.
   
   # Note: 2018-19 aggregates show a small residual gap compared to the officially published totals even though the formulas here match NSO's own revised computation.
   
