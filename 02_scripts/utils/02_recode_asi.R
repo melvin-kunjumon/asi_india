@@ -47,6 +47,20 @@ recode_asi <- function(df) {
                   "Co-operative Society" = 8,
                   "Others" = 9)
   
+  employment_range_labels <- c("0 - 14" = 1, "15 - 19" = 2, "20 - 29" = 3, "30 - 49" = 4, 
+                               "50 - 99" = 5, "100 - 199" = 6, "200 - 499" = 7, "500 - 999" = 8, 
+                               "1000 - 1999" = 9, "2000 - 4999" = 10, "5000 & Above" = 11)
+  
+  capital_range_labels <- c("Upto 25" = 1, "25 - 500" = 2, "500 - 1000" = 3, "1000 & above" = 4)
+  
+  output_range_labels <- c("Upto 25" = 1, "25 - 50" = 2, "50 - 100" = 3, "100 - 200" = 4,
+                           "200 - 500" = 5, "500 - 1000" = 6, "1000 - 2000" = 7, "2000 - 5000" = 8,
+                           "5000 - 10000" = 9, "10000 - 50000" = 10, "50000 & above" = 11)
+  
+  nva_range_labels <- c("Upto 2.5" = 1, "2.5 - 5" = 2, "5 - 10" = 3, "10 - 20" = 4, "20 - 50" = 5,
+                        "50 - 100" = 6, "100 - 200" = 7, "200 - 500" = 8, "500 - 1000" = 9,
+                        "1000 - 5000" = 10, "5000 & above" = 11)
+  
   # Note on tabulation formula consistency across waves -----
   
   # old_waves <- c("2015_16", "2016_17", "2017_18")
@@ -248,6 +262,57 @@ recode_asi <- function(df) {
       gas_consumed = indigenous_input_purchase_value_rs_019,
       other_fuels = indigenous_input_purchase_value_rs_020,
       
+      # categorical ranges ----
+      
+      employment_range = case_when(total_persons_engaged < 15   ~ 1,
+                                   total_persons_engaged < 20   ~ 2,
+                                   total_persons_engaged < 30   ~ 3,
+                                   total_persons_engaged < 50   ~ 4,
+                                   total_persons_engaged < 100  ~ 5,
+                                   total_persons_engaged < 200  ~ 6,
+                                   total_persons_engaged < 500  ~ 7,
+                                   total_persons_engaged < 1000 ~ 8,
+                                   total_persons_engaged < 2000 ~ 9,
+                                   total_persons_engaged < 5000 ~ 10,
+                                   total_persons_engaged >= 5000 ~ 11,
+                                   T ~ NA),
+      employment_range = labelled(employment_range, labels = employment_range_labels),
+      
+      capital_range = case_when(coalesce(gross_value_plant_machinery, 0)/1e5 <= 25   ~ 1,
+                                coalesce(gross_value_plant_machinery, 0)/1e5 <= 500  ~ 2,
+                                coalesce(gross_value_plant_machinery, 0)/1e5 <= 1000 ~ 3,
+                                coalesce(gross_value_plant_machinery, 0)/1e5 > 1000  ~ 4,
+                                T ~ NA),
+      capital_range = labelled(capital_range, labels = capital_range_labels),
+      
+      output_range = case_when(total_output/1e5 <= 25    ~ 1,
+                               total_output/1e5 <= 50    ~ 2,
+                               total_output/1e5 <= 100   ~ 3,
+                               total_output/1e5 <= 200   ~ 4,
+                               total_output/1e5 <= 500   ~ 5,
+                               total_output/1e5 <= 1000  ~ 6,
+                               total_output/1e5 <= 2000  ~ 7,
+                               total_output/1e5 <= 5000  ~ 8,
+                               total_output/1e5 <= 10000 ~ 9,
+                               total_output/1e5 <= 50000 ~ 10,
+                               total_output/1e5 > 50000  ~ 11,
+                               T ~ NA),
+      output_range = labelled(output_range, labels = output_range_labels),
+      
+      nva_range = case_when(total_nva/1e5 <= 2.5  ~ 1,
+                            total_nva/1e5 <= 5    ~ 2,
+                            total_nva/1e5 <= 10   ~ 3,
+                            total_nva/1e5 <= 20   ~ 4,
+                            total_nva/1e5 <= 50   ~ 5,
+                            total_nva/1e5 <= 100  ~ 6,
+                            total_nva/1e5 <= 200  ~ 7,
+                            total_nva/1e5 <= 500  ~ 8,
+                            total_nva/1e5 <= 1000 ~ 9,
+                            total_nva/1e5 <= 5000 ~ 10,
+                            total_nva/1e5 > 5000  ~ 11,
+                            T ~ NA),
+      nva_range = labelled(nva_range, labels = nva_range_labels)
+      
     )
   
   derived_vars <- c("fixed_capital", "physical_working_capital", "working_capital", "invested_capital", "gross_fixed_capital_addition", "rent_paid", "outstanding_loan", "interest_paid", "rent_received",
@@ -256,7 +321,8 @@ recode_asi <- function(df) {
                     "stock_addition_semifinished", "stock_addition_finished_goods", "stock_addition_total", "gross_capital_formation", "total_male_workers", "total_female_workers", "total_trans_workers",
                     "total_direct_workers", "total_contract_workers", "total_workers", "total_staff_supervisory", "total_employees_other", "total_nonworker_employees", "total_unpaid_family", 
                     "total_persons_engaged", "total_mandays_employed", "wages_workers", "wages_supervisory", "wages_other_employees", "total_wages_salaries", "total_bonus", "wages_salaries_bonus", 
-                    "employer_contribution", "wage_salaries_contribution", "coal_consumed", "electricity_purchased", "petroleum_products", "gas_consumed", "other_fuels")
+                    "employer_contribution", "wage_salaries_contribution", "coal_consumed", "electricity_purchased", "petroleum_products", "gas_consumed", "other_fuels", "employment_range", 
+                    "capital_range", "output_range", "nva_range")
   
   df <- df %>% 
     mutate(across(all_of(derived_vars), ~ if_else(unit_status %in% c(1:3), ., NA))) %>% 
