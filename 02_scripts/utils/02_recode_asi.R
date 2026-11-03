@@ -444,10 +444,19 @@ recode_asi <- function(df) {
       
       # wages ----
       
-      wages_workers = rowSums(cbind(wages_salaries_rs_01, wages_salaries_rs_02, wages_salaries_rs_03, wages_salaries_rs_05), na.rm = T), # 1.1.1 in tabulation programme - Volume – I (Tables – 3 & 4), 2023-24 under C
-      wages_supervisory = wages_salaries_rs_07, # 1.1.2 in tabulation programme - Volume – I (Tables – 3 & 4), 2023-24 under C
+      wages_male_workers = wages_salaries_rs_01,
+      wages_female_workers = wages_salaries_rs_02,
+      wages_trans_workers = wages_salaries_rs_03,
+      
+      wages_direct_workers = rowSums(cbind(wages_male_workers, wages_female_workers, wages_trans_workers), na.rm = T),
+      wages_contract_workers = wages_salaries_rs_05,
+      wages_workers = rowSums(cbind(wages_direct_workers, wages_contract_workers), na.rm = T), # 1.1.1 in tabulation programme - Volume – I (Tables – 3 & 4), 2023-24 under C
+      
+      wages_staff_supervisory = wages_salaries_rs_07, # 1.1.2 in tabulation programme - Volume – I (Tables – 3 & 4), 2023-24 under C
       wages_other_employees = wages_salaries_rs_08, # 1.1.3 in tabulation programme - Volume – I (Tables – 3 & 4), 2023-24 under C
-      total_wages_salaries = rowSums(cbind(wages_workers, wages_supervisory, wages_other_employees), na.rm = T), # 1.1 in tabulation programme - Volume – I (Tables – 3 & 4), 2023-24 under C
+      wages_nonworker_employees = rowSums(cbind(wages_staff_supervisory, wages_other_employees), na.rm = T),
+      
+      total_wages_salaries = rowSums(cbind(wages_workers, wages_nonworker_employees), na.rm = T), # 1.1 in tabulation programme - Volume – I (Tables – 3 & 4), 2023-24 under C
       
       total_bonus = bonus_rs, # 1.2 in tabulation programme - Volume – I (Tables – 3 & 4), 2023-24 under C
       wages_salaries_bonus = rowSums(cbind(total_wages_salaries, total_bonus), na.rm = T), # 1 in tabulation programme - Volume – I (Tables – 3 & 4), 2023-24 under C & total_emoluments in summary report
@@ -521,9 +530,9 @@ recode_asi <- function(df) {
                     "total_gva", "total_depreciation", "total_nva", "net_income", "net_profit", "net_fixed_capital_formation", "gross_fixed_capital_formation", "stock_addition_materials_fuels", 
                     "stock_addition_semifinished", "stock_addition_finished_goods", "stock_addition_total", "gross_capital_formation", "total_male_workers", "total_female_workers", "total_trans_workers",
                     "total_direct_workers", "total_contract_workers", "total_workers", "total_staff_supervisory", "total_employees_other", "total_nonworker_employees", "total_unpaid_family", 
-                    "total_persons_engaged", "total_mandays_employed", "wages_workers", "wages_supervisory", "wages_other_employees", "total_wages_salaries", "total_bonus", "wages_salaries_bonus", 
-                    "employer_contribution", "wage_salaries_contribution", "coal_consumed", "electricity_purchased", "petroleum_products", "gas_consumed", "other_fuels", "employment_range", 
-                    "capital_range", "output_range", "nva_range")
+                    "total_persons_engaged", "total_mandays_employed", "wages_male_workers", "wages_female_workers", "wages_trans_workers", "wages_direct_workers", "wages_contract_workers", "wages_workers", 
+                    "wages_staff_supervisory", "wages_other_employees", "wages_nonworker_employees", "total_wages_salaries", "total_bonus", "wages_salaries_bonus", "employer_contribution", 
+                    "wage_salaries_contribution", "coal_consumed", "electricity_purchased", "petroleum_products", "gas_consumed", "other_fuels", "employment_range", "capital_range", "output_range", "nva_range")
   
   df <- df %>% 
     mutate(across(all_of(derived_vars), ~ if_else(unit_status %in% c(1:3), ., NA))) %>% 
