@@ -263,7 +263,7 @@ recode_asi <- function(df) {
   # old_waves <- c("2015_16", "2016_17", "2017_18")
   
   # From ASI 2018-19 onward, the survey redefined Rent Paid, Rent Received, Output, Input, NFCF, GFCF, GCF, Net Income, and Net Profit to align with SNA 2008 (see ASI 2018-19 Vol I, Section 1.9). 
-  # For comparability across the full panel (2015-16 to 2023-24), this script applies the POST-2018-19 (revised) formula definitions uniformly to all waves, including 2015-16 through 2017-18.
+  # For comparability across the full panel (2015-16 to 2024-25), this script applies the POST-2018-19 (revised) formula definitions uniformly to all waves, including 2015-16 through 2017-18.
   
   # As a result, the following derived variables for the 2015-16 to 2017-18 waves will not match the officially published ASI reports (which used the pre-revision definitions): 
   # rent_paid, rent_received, other_output, other_input, net_fixed_capital_formation 
