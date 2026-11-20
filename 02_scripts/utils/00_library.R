@@ -3,7 +3,7 @@
 
 # required packages as strings
 
-libs <- c("dplyr", "tidyr", "forcats", "ggplot2", "haven", "purrr", "stringr", "rlang", "labelled", 
+libs <- c("tibble", "dplyr", "tidyr", "forcats", "ggplot2", "haven", "purrr", "stringr", "rlang", "labelled", 
           "data.table", "janitor", "readr", "openxlsx", "arrow",  "survey", "srvyr", "progress")
 
 # checking if the required packages are already installed

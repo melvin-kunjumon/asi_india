@@ -36,7 +36,8 @@ asi_paths <- list(
   "2020_21" = "01_data/01_data_input/01_raw_data/asi2020_21",
   "2021_22" = "01_data/01_data_input/01_raw_data/asi2021_22",
   "2022_23" = "01_data/01_data_input/01_raw_data/asi2022_23",
-  "2023_24" = "01_data/01_data_input/01_raw_data/asi2023_24"
+  "2023_24" = "01_data/01_data_input/01_raw_data/asi2023_24",
+  "2024_25" = "01_data/01_data_input/01_raw_data/asi2024_25"
   
 )
 
